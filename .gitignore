@@ -93,3 +93,4 @@ ENV/
 
 # IntelliJ
 .idea/
+analysis/publicNoArchive_5yo_gte1000dl_notcod.csv
