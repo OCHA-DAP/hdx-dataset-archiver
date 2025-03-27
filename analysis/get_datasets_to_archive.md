@@ -23,15 +23,25 @@ UPPER_BOUND_YEAR = datetime.today().year - 5
 # Max number of downloads in the past 5 years
 MAX_DOWNLOADS = 1_000
 # List of orgs whose datasets are excluded from archiving. This list is provided by DPT. This uses org display names because that is what is in the source CSV, but a more reliable approach would be to use org IDs
-EXCLUDED_ORGS = [
-    "OurAirports",
-    "HDX",
-    "Central Emergency Response Fund",
-    "OCHA Financial Tracking System (FTS)",
-    "INFORM",
-    "Humanitarian Exchange Language (#HXL)",
-    "ReliefWeb",
-]
+# Exclusion of orgs is now disabled.
+# EXCLUDED_ORGS = [
+#     "OurAirports",
+#     "HDX",
+#     "Central Emergency Response Fund",
+#     "OCHA Financial Tracking System (FTS)",
+#     "INFORM",
+#     "Humanitarian Exchange Language (#HXL)",
+#     "ReliefWeb",
+# ]
+
+# Some reporting stats:
+dsets_initial = 0
+dsets_publicNoArchiveNotRequestable = 0
+dsets_notOngoing = 0
+dsets_createYear = 0
+dsets_refEndYear = 0
+dsets_lt1000Dl = 0
+dsets_notCOD = 0
 ```
 
 
@@ -56,14 +66,9 @@ df = pd.read_csv(DATASET_INFO_CSV)
 ```python
 # The number of rows
 df.shape[0]
+
+dsets_initial = len(df)
 ```
-
-
-
-
-    27086
-
-
 
 
 ```python
@@ -89,58 +94,51 @@ df.columns
 
 
 ```python
-# We want datasets that are public and not archived
-df_publicnoarchive = df.loc[(df["public"] == "Y") & (df["archived"] == "N")]
+# We want datasets that are public and not archived and not requestable
+df_publicnoarchive = df.loc[
+    (df["public"] == "Y") & (df["archived"] == "N") & (df["requestable"] == "N")
+]
 df_publicnoarchive.shape[0]
-```
 
-
-
-
-    18257
-
-
-
-
-```python
-#df_publicnoarchive.to_csv("temp.csv", index=False)
+dsets_publicNoArchiveNotRequestable = len(df_publicnoarchive)
 ```
 
 
 ```python
 # Drop datasets that belong to one of the excluded orgs
-df_publicnoarchive = df_publicnoarchive.loc[
-    ~df_publicnoarchive["organisation"].isin(EXCLUDED_ORGS)
-]
-df_publicnoarchive.shape[0]
+# df_publicnoarchive = df_publicnoarchive.loc[
+#     ~df_publicnoarchive["organisation"].isin(EXCLUDED_ORGS)
+# ]
+# df_publicnoarchive.shape[0]
 ```
 
 
+```python
+# We only want to consider datasets that were created more than 5 years ago and
+# whose reference period end is more than 5 years ago, but first we have to get
+# rid of anything where reference period end = "ongoing"
+df_publicnoarchive = df_publicnoarchive.loc[
+    (df_publicnoarchive["reference period end"] != "ongoing")
+]
 
+df_publicnoarchive.shape[0]
 
-    17504
-
-
+dsets_notOngoing = len(df_publicnoarchive)
+```
 
 
 ```python
-# We only want to consider datasets that were created more than 5 years ago
 df_publicnoarchive_5yo = df_publicnoarchive.loc[
-    pd.to_datetime(df_publicnoarchive["date created"]).dt.year < UPPER_BOUND_YEAR
+    (pd.to_datetime(df_publicnoarchive["date created"]).dt.year < UPPER_BOUND_YEAR)
 ]
 df_publicnoarchive_5yo.shape[0]
+
+dsets_createYear = len(df_publicnoarchive_5yo)
 ```
 
 
-
-
-    8273
-
-
-
-
 ```python
-# Confirm maximum date is < UPPER_BOUND_YEAR
+# Confirm maximum creation date is < UPPER_BOUND_YEAR
 df_publicnoarchive_5yo["date created"].max()
 ```
 
@@ -153,19 +151,40 @@ df_publicnoarchive_5yo["date created"].max()
 
 
 ```python
-# Datasets must have < 1000 download counts
-df_publicnoarchive_5yo_lt1000dl = df_publicnoarchive_5yo.loc[
-    df_publicnoarchive_5yo["downloads last 5 years"] < MAX_DOWNLOADS
+df_publicnoarchive_5yo = df_publicnoarchive_5yo.loc[
+    (
+        pd.to_datetime(df_publicnoarchive["reference period end"]).dt.year
+        < UPPER_BOUND_YEAR
+    )
 ]
-df_publicnoarchive_5yo_lt1000dl.shape[0]
+df_publicnoarchive_5yo.shape[0]
+
+dsets_refEndYear = len(df_publicnoarchive_5yo)
+```
+
+
+```python
+# Confirm maximum ref period end date is < UPPER_BOUND_YEAR
+df_publicnoarchive_5yo["reference period end"].max()
 ```
 
 
 
 
-    7391
+    '2019-12-31T23:59:59+00:00'
 
 
+
+
+```python
+# Datasets must have < 1000 download counts
+df_publicnoarchive_5yo_lt1000dl = df_publicnoarchive_5yo.loc[
+    df_publicnoarchive_5yo["downloads last 5 years"] < MAX_DOWNLOADS
+]
+df_publicnoarchive_5yo_lt1000dl.shape[0]
+
+dsets_lt1000Dl = len(df_publicnoarchive_5yo_lt1000dl)
+```
 
 
 ```python
@@ -174,20 +193,39 @@ df_publicnoarchive_5yo_lt1000dl_notcod = df_publicnoarchive_5yo_lt1000dl.loc[
     df_publicnoarchive_5yo_lt1000dl["is cod"] == "N"
 ]
 df_publicnoarchive_5yo_lt1000dl_notcod.shape[0]
+
+dsets_notCOD = len(df_publicnoarchive_5yo_lt1000dl_notcod)
 ```
-
-
-
-
-    7357
-
-
 
 
 ```python
 # Write to CSV
 df_publicnoarchive_5yo_lt1000dl_notcod.to_csv("output.csv", index=False)
 ```
+
+
+```python
+# Some reporting
+
+print(f"Initial number of datasets: {dsets_initial}")
+print(
+    f"After filtering by public, non-archived, non-requestable: {dsets_publicNoArchiveNotRequestable}"
+)
+print(f"After filtering by not ongoing: {dsets_notOngoing}")
+print(f"After filtering by create year > 5 years: {dsets_createYear}")
+print(f"After filtering by reference period end > 5 years: {dsets_refEndYear}")
+print(f"After filtering by lifetime downloads < 1000: {dsets_lt1000Dl}")
+print(f"After filtering by not COD: {dsets_notCOD}")
+```
+
+    Initial number of datasets: 26882
+    After filtering by public, non-archived, non-requestable: 18063
+    After filtering by not ongoing: 17036
+    After filtering by create year > 5 years: 8327
+    After filtering by reference period end > 5 years: 807
+    After filtering by lifetime downloads < 1000: 613
+    After filtering by not COD: 608
+    
 
 
 ```python
@@ -208,10 +246,3 @@ df_publicnoarchive_5yo_lt1000dl_notcod.to_csv("output.csv", index=False)
 # )
 # df_publicnoarchive_5yo_gte1000dl_notcod.shape[0]
 ```
-
-
-
-
-    679
-
-
