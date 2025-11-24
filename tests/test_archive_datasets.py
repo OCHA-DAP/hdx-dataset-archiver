@@ -2,7 +2,9 @@ from collections import UserDict
 from os.path import join
 
 import pytest
-from archive_datasets import archive
+
+from hdx.dataset.archiver.archive_datasets import archive
+
 from hdx.api.configuration import Configuration
 from hdx.utilities.dateparse import parse_date
 from hdx.utilities.useragent import UserAgent
@@ -84,14 +86,16 @@ class TestDatasetArchiver:
         Configuration._create(
             hdx_read_only=True,
             user_agent="test",
-            project_config_yaml=join("config", "project_configuration.yml"),
+            project_config_yaml=join("config", "project_configuration.yaml"),
         )
         UserAgent.set_global("test")
         return Configuration.read()
 
     def test_archive(self, configuration):
         today = parse_date("2023-10-12")
-        archived, not_archived, already_archived = archive(configuration, today, DatasetCls=TestDataset)
+        archived, not_archived, already_archived = archive(
+            configuration, today, DatasetCls=TestDataset
+        )
         for dataset in archived:
             assert "should_archive" in dataset["name"]
         for dataset in not_archived:
