@@ -1,8 +1,7 @@
 from os.path import expanduser, join
 
-from hdx.dataset.archiver.archive_datasets import archive
-
 from hdx.api.configuration import Configuration
+from hdx.dataset.archiver.archive_datasets import archive
 from hdx.facades.simple import facade
 from hdx.utilities.dateparse import now_utc
 

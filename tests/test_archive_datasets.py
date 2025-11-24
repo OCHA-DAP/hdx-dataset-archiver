@@ -3,9 +3,8 @@ from os.path import join
 
 import pytest
 
-from hdx.dataset.archiver.archive_datasets import archive
-
 from hdx.api.configuration import Configuration
+from hdx.dataset.archiver.archive_datasets import archive
 from hdx.utilities.dateparse import parse_date
 from hdx.utilities.useragent import UserAgent
 
