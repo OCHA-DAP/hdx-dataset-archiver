@@ -9,10 +9,10 @@ logger = logging.getLogger(__name__)
 
 
 def archive(configuration, today, DatasetCls=Dataset):
-    already_archived = []
-    not_archived = []
-    archived = []
     for org_name, fields_to_match in configuration["orgs"].items():
+        already_archived = []
+        not_archived = []
+        archived = []
         logger.info(f"Organisation: {org_name}\n")
         for name in fields_to_match:
             if name == "before":
