@@ -161,7 +161,7 @@ cython_debug/
 
 ## Project
 # Version file
-src/hdx/dataset/archiver/_version.py
+src/hdx/scraper/datasetarchiver/_version.py
 
 #OS Files
 *DS_Store

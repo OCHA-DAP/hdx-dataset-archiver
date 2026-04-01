@@ -1,5 +1,5 @@
 ### Dataset Archiver
-[![Build Status](https://github.com/OCHA-DAP/hdx-dataset-archiver/actions/workflows/run-python-tests.yml/badge.svg)](https://github.com/OCHA-DAP/hdx-dataset-archiver/actions/workflows/run-python-tests.yml) [![Coverage Status](https://coveralls.io/repos/github/OCHA-DAP/hdx-dataset-archiver/badge.svg?branch=main&ts=1)](https://coveralls.io/github/OCHA-DAP/hdx-dataset-archiver?branch=main)
+[![Build Status](https://github.com/OCHA-DAP/hdx-scraper-datasetarchiver/actions/workflows/run-python-tests.yml/badge.svg)](https://github.com/OCHA-DAP/hdx-scraper-datasetarchiver/actions/workflows/run-python-tests.yml) [![Coverage Status](https://coveralls.io/repos/github/OCHA-DAP/hdx-scraper-datasetarchiver/badge.svg?branch=main&ts=1)](https://coveralls.io/github/OCHA-DAP/hdx-scraper-datasetarchiver?branch=main)
 
 This script archives old datasets for WFP ADAM and UNOSAT
 
@@ -14,6 +14,6 @@ For the script to run, you will need to have a file called .hdx_configuration.ym
     hdx_read_only: false
     hdx_site: prod
 
- You will also need to supply the universal .useragents.yml file in your home directory as specified in the parameter *user_agent_config_yaml* passed to facade in run.py. The collector reads the key **hdx-dataset-archiver** as specified in the parameter *user_agent_lookup*.
+ You will also need to supply the universal .useragents.yml file in your home directory as specified in the parameter *user_agent_config_yaml* passed to facade in run.py. The collector reads the key **hdx-scraper-datasetarchiver** as specified in the parameter *user_agent_lookup*.
 
  Alternatively, you can set up environment variables: USER_AGENT, HDX_KEY, HDX_SITE, TEMP_DIR, LOG_FILE_ONLY

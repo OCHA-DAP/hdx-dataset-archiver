@@ -8,7 +8,7 @@ annotated-types==0.7.0
     # via
     #   -c requirements.txt
     #   pydantic
-attrs==25.4.0
+attrs==26.1.0
     # via
     #   -c requirements.txt
     #   frictionless
@@ -19,7 +19,7 @@ certifi==2026.2.25
     # via
     #   -c requirements.txt
     #   requests
-chardet==7.2.0
+chardet==7.4.0.post2
     # via
     #   -c requirements.txt
     #   frictionless
@@ -27,7 +27,7 @@ charset-normalizer==3.4.6
     # via
     #   -c requirements.txt
     #   requests
-ckanapi==4.10
+ckanapi==4.11
     # via
     #   -c requirements.txt
     #   hdx-python-api
@@ -68,16 +68,16 @@ frictionless==5.18.1
 hdx-python-api==6.6.5
     # via
     #   -c requirements.txt
-    #   hdx-dataset-archiver (pyproject.toml)
+    #   hdx-scraper-datasetarchiver (pyproject.toml)
 hdx-python-country==4.1.1
     # via
     #   -c requirements.txt
-    #   hdx-dataset-archiver (pyproject.toml)
+    #   hdx-scraper-datasetarchiver (pyproject.toml)
     #   hdx-python-api
 hdx-python-utilities==4.0.8
     # via
     #   -c requirements.txt
-    #   hdx-dataset-archiver (pyproject.toml)
+    #   hdx-scraper-datasetarchiver (pyproject.toml)
     #   hdx-python-api
     #   hdx-python-country
 humanize==4.15.0
@@ -166,7 +166,7 @@ pydantic-core==2.41.5
     # via
     #   -c requirements.txt
     #   pydantic
-pygments==2.19.2
+pygments==2.20.0
     # via
     #   -c requirements.txt
     #   pytest
@@ -177,13 +177,13 @@ pyphonetics==0.5.3
     #   hdx-python-utilities
 pytest==9.0.2
     # via
-    #   hdx-dataset-archiver (pyproject.toml)
+    #   hdx-scraper-datasetarchiver (pyproject.toml)
     #   pytest-check
     #   pytest-cov
-pytest-check==2.7.6
-    # via hdx-dataset-archiver (pyproject.toml)
-pytest-cov==7.0.0
-    # via hdx-dataset-archiver (pyproject.toml)
+pytest-check==2.8.0
+    # via hdx-scraper-datasetarchiver (pyproject.toml)
+pytest-cov==7.1.0
+    # via hdx-scraper-datasetarchiver (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via
     #   -c requirements.txt
@@ -208,7 +208,7 @@ referencing==0.37.0
     #   -c requirements.txt
     #   jsonschema
     #   jsonschema-specifications
-requests==2.32.5
+requests==2.33.1
     # via
     #   -c requirements.txt
     #   ckanapi

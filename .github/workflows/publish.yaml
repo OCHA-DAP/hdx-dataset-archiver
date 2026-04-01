@@ -47,4 +47,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: public.ecr.aws/unocha/hdx-dataset-archiver:${{ steps.tag_info.outputs.IMAGE_TAG }}
+          tags: public.ecr.aws/unocha/hdx-scraper-datasetarchiver:${{ steps.tag_info.outputs.IMAGE_TAG }}

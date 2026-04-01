@@ -4,7 +4,7 @@
 packages = ["src/hdx"]
 
 [build.hooks.vcs]
-version-file = "src/hdx/dataset/archiver/_version.py"
+version-file = "src/hdx/scraper/datasetarchiver/_version.py"
 
 [metadata]
 allow-direct-references = true

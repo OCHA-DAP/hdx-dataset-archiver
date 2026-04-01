@@ -7,7 +7,7 @@ requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
-name = "hdx-dataset-archiver"
+name = "hdx-scraper-datasetarchiver"
 requires-python = ">=3.13"
 dependencies = [
   "hdx-python-api>= 6.6.5",
@@ -21,11 +21,11 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-Homepage = "https://github.com/OCHA-DAP/hdx-dataset-archiver"
+Homepage = "https://github.com/OCHA-DAP/hdx-scraper-datasetarchiver"
 
 [project.optional-dependencies]
 test = ["pytest", "pytest-check", "pytest-cov"]
 dev = ["pre-commit"]
 
 [project.scripts]
-run = "hdx.dataset.archiver.__main__:main"
+run = "hdx.scraper.datasetarchiver.__main__:main"
